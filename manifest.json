@@ -1,0 +1,10 @@
+{
+    "name": "Bounding Box",
+    "version": "1.0.0",
+    "description": "This is an extension that allows you to create a bounding box over any page and save the image locally!",
+    "author": "Vivian Dai and Serena Xu",
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "Bounding Box"
+    }
+}
