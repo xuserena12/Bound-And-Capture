@@ -1,6 +1,37 @@
 console.log('contentScript.js loaded');
 
+let isDrawingEnabled = false;
+let isDrawing = false;
+let startX, startY;
+let box;
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.event === 'toggleBoundingBoxMode') {
+        isDrawingEnabled = !isDrawingEnabled;
+        if (isDrawingEnabled) {
+            document.addEventListener('mousemove', handleMouseMove);
+            alert('Bounding box drawing enabled');
+        } else {
+            document.removeEventListener('mousemove', handleMouseMove);
+            alert('Bounding box drawing disabled');
+        }
+    }
+});
+
 document.addEventListener('mousedown', function(event) {
+    if (isDrawingEnabled) {
+        isDrawing = true;
+        startX = event.pageX;
+        startY = event.pageY;
+
+        box = document.createElement('div');
+        box.style.position = 'absolute';
+        box.style.border = '2px solid red';
+        box.style.left = `${startX}px`;
+        box.style.top = `${startY}px`;
+        document.body.appendChild(box);
+    }
+
     let clickData = {
       event: 'mousedown',
       x: event.clientX,
@@ -10,6 +41,10 @@ document.addEventListener('mousedown', function(event) {
 });
 
 document.addEventListener('mouseup', function(event) {
+    if (isDrawingEnabled && isDrawing) {
+        isDrawing = false;
+    }
+
     let clickData = {
       event: 'mouseup',
       x: event.clientX,
@@ -17,3 +52,9 @@ document.addEventListener('mouseup', function(event) {
     };
     chrome.runtime.sendMessage(clickData);
 });
+
+function handleMouseMove(event) {
+    if (!isDrawing) return;
+    box.style.width = `${event.pageX - startX}px`;
+    box.style.height = `${event.pageY - startY}px`;
+}
