@@ -26,7 +26,8 @@
         "scripting",
         "activeTab",
         "tabs",
-        "storage"
+        "storage",
+        "tabCapture"
     ],
     "options_ui": {
         "page": "options.html",

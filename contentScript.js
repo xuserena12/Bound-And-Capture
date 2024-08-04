@@ -18,6 +18,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         }
     } else if (message.event === 'undoLastBox') {
         undoLastBox();
+    } else if (message.event === 'captureScreen') {
+        chrome.runtime.sendMessage({event: 'captureRequest'});
     }
 });
 
