@@ -27,7 +27,8 @@
         "activeTab",
         "tabs",
         "storage",
-        "tabCapture"
+        "tabCapture",
+        "downloads"
     ],
     "options_ui": {
         "page": "options.html",

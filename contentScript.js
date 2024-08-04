@@ -19,7 +19,14 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     } else if (message.event === 'undoLastBox') {
         undoLastBox();
     } else if (message.event === 'captureScreen') {
+        for (let box of boxes) {
+            box.style.visibility = 'hidden';
+        }
         chrome.runtime.sendMessage({event: 'captureRequest'});
+    } else if (message.event === 'finishedScreenCapture') {
+        for (let box of boxes) {
+            box.style.visibility = 'visible';
+        }
     }
 });
 
