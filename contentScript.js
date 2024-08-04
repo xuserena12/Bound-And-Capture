@@ -5,6 +5,7 @@ let isDrawing = false;
 let startX, startY;
 let box;
 let boxes = []
+let labels = []
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'toggleBoundingBoxMode') {
@@ -22,7 +23,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         for (let box of boxes) {
             box.style.visibility = 'hidden';
         }
-        chrome.runtime.sendMessage({event: 'captureRequest'});
+        chrome.runtime.sendMessage({event: 'captureRequest', labels: labels});
     } else if (message.event === 'finishedScreenCapture') {
         for (let box of boxes) {
             box.style.visibility = 'visible';
@@ -56,6 +57,9 @@ document.addEventListener('mouseup', function(event) {
     if (isDrawingEnabled && isDrawing) {
         isDrawing = false;
         boxes.push(box);
+        // TODO: the labels currently have px units, remove
+        // TODO: add the class to the front
+        labels.push(`${box.style.left} ${box.style.top} ${box.style.width} ${box.style.height}`);
     }
 
     let clickData = {
