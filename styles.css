@@ -64,3 +64,16 @@ body {
     font-weight: 400;
     font-size: 14px;
 }
+
+.undo-btn {
+    margin-top: 0px;
+    background-color: #6E5757;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+}

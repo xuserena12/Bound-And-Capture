@@ -4,6 +4,7 @@ let isDrawingEnabled = false;
 let isDrawing = false;
 let startX, startY;
 let box;
+let boxes = []
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'toggleBoundingBoxMode') {
@@ -15,6 +16,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             document.removeEventListener('mousemove', handleMouseMove);
             alert('Bounding box drawing disabled');
         }
+    } else if (message.event === 'undoLastBox') {
+        undoLastBox();
     }
 });
 
@@ -26,7 +29,7 @@ document.addEventListener('mousedown', function(event) {
 
         box = document.createElement('div');
         box.style.position = 'absolute';
-        box.style.border = '2px solid red';
+        box.style.border = '2px solid blue';
         box.style.left = `${startX}px`;
         box.style.top = `${startY}px`;
         document.body.appendChild(box);
@@ -43,6 +46,7 @@ document.addEventListener('mousedown', function(event) {
 document.addEventListener('mouseup', function(event) {
     if (isDrawingEnabled && isDrawing) {
         isDrawing = false;
+        boxes.push(box);
     }
 
     let clickData = {
@@ -57,4 +61,11 @@ function handleMouseMove(event) {
     if (!isDrawing) return;
     box.style.width = `${event.pageX - startX}px`;
     box.style.height = `${event.pageY - startY}px`;
+}
+
+function undoLastBox() {
+    if (boxes.length > 0) {
+        const lastBox = boxes.pop();
+        lastBox.remove();
+    }
 }
