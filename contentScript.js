@@ -4,10 +4,9 @@ let isDrawingEnabled = false;
 let isDrawing = false;
 let startX, startY;
 let box;
-let boxes = []
-let labels = []
-
-const currentClass = 0; // TODO: get this from somewhere
+let boxes = [];
+let labels = [];
+let currentClass = 0;
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'toggleBoundingBoxMode') {
@@ -59,8 +58,9 @@ document.addEventListener('mouseup', function(event) {
     if (isDrawingEnabled && isDrawing) {
         isDrawing = false;
         boxes.push(box);
-        // TODO: the labels currently have px units, remove
-        // TODO: add the class to the front
+        chrome.storage.local.get(['currentClass'], function(result) {
+            currentClass = result.currentClass || 0;
+        });
         labels.push(`${currentClass} ${startX} ${startY} ${event.clientX} ${event.clientY}`);
     }
 
