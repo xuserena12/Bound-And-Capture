@@ -7,6 +7,8 @@ let box;
 let boxes = []
 let labels = []
 
+const currentClass = 0; // TODO: get this from somewhere
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'toggleBoundingBoxMode') {
         isDrawingEnabled = !isDrawingEnabled;
@@ -59,7 +61,7 @@ document.addEventListener('mouseup', function(event) {
         boxes.push(box);
         // TODO: the labels currently have px units, remove
         // TODO: add the class to the front
-        labels.push(`${box.style.left} ${box.style.top} ${box.style.width} ${box.style.height}`);
+        labels.push(`${currentClass} ${startX} ${startY} ${event.clientX} ${event.clientY}`);
     }
 
     let clickData = {
@@ -80,5 +82,7 @@ function undoLastBox() {
     if (boxes.length > 0) {
         const lastBox = boxes.pop();
         lastBox.remove();
+        // labels should also be removed
+        labels.pop();
     }
 }
