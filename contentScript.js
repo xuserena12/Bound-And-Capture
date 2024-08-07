@@ -6,7 +6,11 @@ let startX, startY;
 let box;
 let boxes = [];
 let labels = [];
-let currentClass = 0;
+let currentClass = null;
+
+chrome.storage.local.get(['currentClass'], function(result) {
+    currentClass = result.currentClass;
+});
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'toggleBoundingBoxMode') {
