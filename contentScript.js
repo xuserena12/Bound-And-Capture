@@ -61,6 +61,8 @@ document.addEventListener('mouseup', function(event) {
         chrome.storage.local.get(['currentClass'], function(result) {
             currentClass = result.currentClass || 0;
         });
+        console.log("Sending clicked data and class");
+        console.log(`${currentClass} ${startX} ${startY} ${event.clientX} ${event.clientY}`);
         labels.push(`${currentClass} ${startX} ${startY} ${event.clientX} ${event.clientY}`);
     }
 

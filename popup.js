@@ -29,15 +29,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    chrome.storage.local.get(['classes'], function(result) {
-        // TODO: make this display the current class on select
+    chrome.storage.local.get(['classes', 'currentClass'], function(result) {
         let classes = result.classes || [];
-        for (let i = 0;i < classes.length;i++) {
+        let currentClass = result.currentClass;
+
+        for (let i = 0; i < classes.length; i++) {
             let option = document.createElement('option');
             option.text = classes[i];
             option.value = i;
             classPicker.add(option);
         }
+
+        classPicker.value = currentClass;
     });
 
     classPicker.addEventListener('change', function() {
