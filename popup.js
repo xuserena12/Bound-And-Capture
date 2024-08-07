@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     classPicker.addEventListener('change', function() {
         let classIndex = classPicker.value;
         chrome.storage.local.set({currentClass: classIndex});
+        console.log(`Set as ${classIndex}`);
     });
 });
 

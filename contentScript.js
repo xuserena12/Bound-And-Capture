@@ -8,8 +8,13 @@ let boxes = [];
 let labels = [];
 let currentClass = null;
 
-chrome.storage.local.get(['currentClass'], function(result) {
-    currentClass = result.currentClass;
+
+updateCurrentClass();
+
+chrome.storage.onChanged.addListener(function(changes, area) {
+    if (area === 'local' && changes.currentClass) {
+        updateCurrentClass();
+    }
 });
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -91,4 +96,11 @@ function undoLastBox() {
         // labels should also be removed
         labels.pop();
     }
+}
+
+function updateCurrentClass() {
+    chrome.storage.local.get(['currentClass'], function(result) {
+        currentClass = result.currentClass || 0;
+        console.log(`Updated currentClass: ${currentClass}`);
+    });
 }
