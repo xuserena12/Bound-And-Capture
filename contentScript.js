@@ -6,7 +6,16 @@ let startX, startY;
 let box;
 let boxes = [];
 let labels = [];
-let currentClass = 0;
+let currentClass = null;
+
+
+updateCurrentClass();
+
+chrome.storage.onChanged.addListener(function(changes, area) {
+    if (area === 'local' && changes.currentClass) {
+        updateCurrentClass();
+    }
+});
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'toggleBoundingBoxMode') {
@@ -61,6 +70,8 @@ document.addEventListener('mouseup', function(event) {
         chrome.storage.local.get(['currentClass'], function(result) {
             currentClass = result.currentClass || 0;
         });
+        console.log("Sending clicked data and class");
+        console.log(`${currentClass} ${startX} ${startY} ${event.clientX} ${event.clientY}`);
         labels.push(`${currentClass} ${startX} ${startY} ${event.clientX} ${event.clientY}`);
     }
 
@@ -85,4 +96,11 @@ function undoLastBox() {
         // labels should also be removed
         labels.pop();
     }
+}
+
+function updateCurrentClass() {
+    chrome.storage.local.get(['currentClass'], function(result) {
+        currentClass = result.currentClass || 0;
+        console.log(`Updated currentClass: ${currentClass}`);
+    });
 }
