@@ -44,8 +44,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 document.addEventListener('mousedown', function(event) {
     if (isDrawingEnabled) {
         isDrawing = true;
-        startX = event.pageX;
-        startY = event.pageY;
+        startX = event.clientX;
+        startY = event.clientY;
 
         box = document.createElement('div');
         box.style.position = 'absolute';
@@ -77,8 +77,8 @@ document.addEventListener('mouseup', function(event) {
         const boxWidth = event.clientX - startX;
         const centerX = startX + boxWidth / 2;
         const centerY = startY + boxHeight / 2;
-        console.log(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${boxWidth/windowWidth} ${boxHeight/windowHeight}`);
-        labels.push(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${boxWidth/windowWidth} ${boxHeight/windowHeight}`);
+        console.log(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
+        labels.push(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
     }
 
     let clickData = {
