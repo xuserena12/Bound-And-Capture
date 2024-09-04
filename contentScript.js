@@ -76,12 +76,12 @@ document.addEventListener('mouseup', function(event) {
         console.log("Sending clicked data and class");
         const windowHeight = window.innerHeight;
         const windowWidth = window.innerWidth;
-        const boxHeight = event.clientY - startXRel;
-        const boxWidth = event.clientX - startYRel;
+        const boxHeight = Math.abs(event.clientY - startXRel);
+        const boxWidth = Math.abs(event.clientX - startYRel);
         const centerX = startXRel + boxWidth / 2;
         const centerY = startYRel + boxHeight / 2;
-        console.log(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
-        labels.push(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
+        console.log(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${boxWidth/windowWidth} ${boxHeight/windowHeight}`);
+        labels.push(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${boxWidth/windowWidth} ${boxHeight/windowHeight}`);
     }
 
     let clickData = {
