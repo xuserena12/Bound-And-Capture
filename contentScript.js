@@ -76,8 +76,8 @@ document.addEventListener('mouseup', function(event) {
         console.log("Sending clicked data and class");
         const windowHeight = window.innerHeight;
         const windowWidth = window.innerWidth;
-        const boxHeight = event.clientY - startY;
-        const boxWidth = event.clientX - startX;
+        const boxHeight = event.clientY - startXRel;
+        const boxWidth = event.clientX - startYRel;
         const centerX = startXRel + boxWidth / 2;
         const centerY = startYRel + boxHeight / 2;
         console.log(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
