@@ -3,6 +3,7 @@ console.log('contentScript.js loaded');
 let isDrawingEnabled = false;
 let isDrawing = false;
 let startX, startY;
+let srartXRel, startYRel;
 let box;
 let boxes = [];
 let labels = [];
@@ -44,8 +45,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 document.addEventListener('mousedown', function(event) {
     if (isDrawingEnabled) {
         isDrawing = true;
-        startX = event.clientX;
-        startY = event.clientY;
+        startX = event.pageX;
+        startY = event.pageY;
+        startXRel = event.clientX;
+        startYRel = event.clientY;
 
         box = document.createElement('div');
         box.style.position = 'absolute';
@@ -75,8 +78,8 @@ document.addEventListener('mouseup', function(event) {
         const windowWidth = window.innerWidth;
         const boxHeight = event.clientY - startY;
         const boxWidth = event.clientX - startX;
-        const centerX = startX + boxWidth / 2;
-        const centerY = startY + boxHeight / 2;
+        const centerX = startXRel + boxWidth / 2;
+        const centerY = startYRel + boxHeight / 2;
         console.log(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
         labels.push(`${currentClass} ${centerX/windowWidth} ${centerY/windowHeight} ${Math.abs(boxWidth/windowWidth)} ${Math.abs(boxHeight/windowHeight)}`);
     }
