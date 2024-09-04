@@ -1,5 +1,5 @@
 console.log('background.js loaded');
-const filename = "pokemon";
+const filename = "data";
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.event === 'mousedown') {
